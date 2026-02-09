@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diff Checker - Compare Text Differences Online Free</title>
+    <meta name="description" content="Free online diff checker tool to compare text and code differences. Side-by-side comparison with syntax highlighting. Compare files instantly.">
+    <meta name="keywords" content="diff checker, text comparison, code diff, compare text, file compare, online diff tool">
+
+    <!-- Google AdSense -->
+    <!-- Replace 'ca-pub-XXXXXXXXXXXXXXXX' with your actual AdSense publisher ID -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <!-- Diff2Html CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Diff Checker</h1>
+            <p>Compare text and code differences side-by-side</p>
+        </header>
+
+        <!-- Top Banner Ad -->
+        <div class="ad-container ad-horizontal">
+            <!-- Google AdSense - Horizontal Banner (728x90 or responsive) -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="YYYYYYYYYY"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div class="controls">
+            <div class="view-options">
+                <label>
+                    <input type="radio" name="viewMode" value="side-by-side" checked aria-label="Side-by-side view mode">
+                    Side-by-Side
+                </label>
+                <label>
+                    <input type="radio" name="viewMode" value="line-by-line" aria-label="Line-by-line view mode">
+                    Line-by-Line
+                </label>
+                <label>
+                    <input type="checkbox" id="ignoreWhitespace" aria-label="Ignore whitespace differences">
+                    Ignore whitespace
+                </label>
+            </div>
+            <button id="compareBtn" class="btn-primary" aria-label="Compare the two texts">Compare</button>
+            <button id="clearBtn" class="btn-secondary" aria-label="Clear all inputs">Clear</button>
+        </div>
+
+        <div class="input-section">
+            <div class="input-panel">
+                <div class="panel-header">
+                    <h3>Original Text</h3>
+                    <input type="file" id="file1" accept=".txt,.js,.jsx,.ts,.tsx,.html,.css,.json,.md,.py,.java,.c,.cpp,.xml,.sql" hidden aria-label="Upload original text file">
+                    <button onclick="document.getElementById('file1').click()" class="btn-file" aria-label="Upload original text file">📁 Upload File</button>
+                </div>
+                <textarea id="text1" placeholder="Paste your original text or code here..." aria-label="Original text input area"></textarea>
+            </div>
+
+            <div class="input-panel">
+                <div class="panel-header">
+                    <h3>Changed Text</h3>
+                    <input type="file" id="file2" accept=".txt,.js,.jsx,.ts,.tsx,.html,.css,.json,.md,.py,.java,.c,.cpp,.xml,.sql" hidden aria-label="Upload changed text file">
+                    <button onclick="document.getElementById('file2').click()" class="btn-file" aria-label="Upload changed text file">📁 Upload File</button>
+                </div>
+                <textarea id="text2" placeholder="Paste your changed text or code here..." aria-label="Changed text input area"></textarea>
+            </div>
+        </div>
+
+        <div id="results" class="results-section" role="region" aria-label="Comparison results" aria-live="polite"></div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-overlay" style="display: none;">
+            <div class="spinner-container">
+                <div class="spinner"></div>
+                <p>Generating comparison...</p>
+            </div>
+        </div>
+
+        <!-- Bottom Banner Ad -->
+        <div class="ad-container ad-horizontal">
+            <!-- Google AdSense - Horizontal Banner -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="ZZZZZZZZZZ"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ using <a href="https://github.com/rtfpessoa/diff2html" target="_blank">Diff2Html</a></p>
+        </footer>
+    </div>
+
+    <!-- Diff2Html JS -->
+    <script src="https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui.min.js"></script>
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+</html>
