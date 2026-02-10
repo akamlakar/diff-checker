@@ -1,0 +1,10 @@
+# robots.txt for Diff-Checker
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://akamlakar.github.io/diff-checker/sitemap.xml
+
+# Crawl delay (optional - be nice to servers)
+Crawl-delay: 1
