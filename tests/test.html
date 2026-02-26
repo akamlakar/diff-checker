@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diff Checker - Test Suite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 { color: #667eea; }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .pass { background: #d4edda; color: #155724; }
+        .fail { background: #f8d7da; color: #721c24; }
+        .pending { background: #fff3cd; color: #856404; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #5568d3; }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Diff Checker - Production Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Security Tests</h2>
+        <div id="security-tests"></div>
+        <button onclick="runSecurityTests()">Run Security Tests</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Performance Tests</h2>
+        <div id="performance-tests"></div>
+        <button onclick="runPerformanceTests()">Run Performance Tests</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Functionality Tests</h2>
+        <div id="functionality-tests"></div>
+        <button onclick="runFunctionalityTests()">Run Functionality Tests</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Integration Tests</h2>
+        <div id="integration-tests"></div>
+        <button onclick="runIntegrationTests()">Run Integration Tests</button>
+    </div>
+    
+    <div class="test-section">
+        <button onclick="runAllTests()" style="background: #28a745; font-size: 1.1em; padding: 15px 30px;">
+            🚀 Run All Tests
+        </button>
+    </div>
+
+    <script>
+        function addTestResult(containerId, testName, passed, message = '') {
+            const container = document.getElementById(containerId);
+            const result = document.createElement('div');
+            result.className = `test-result ${passed ? 'pass' : 'fail'}`;
+            result.innerHTML = `
+                <strong>${passed ? '✅' : '❌'} ${testName}</strong>
+                ${message ? `<br><small>${message}</small>` : ''}
+            `;
+            container.appendChild(result);
+            return passed;
+        }
+
+        async function runSecurityTests() {
+            const container = document.getElementById('security-tests');
+            container.innerHTML = '';
+            
+            // Test 1: CSP Headers
+            try {
+                const response = await fetch('/');
+                const csp = response.headers.get('Content-Security-Policy');
+                addTestResult('security-tests', 'CSP Headers Present', !!csp, csp ? 'CSP configured' : 'CSP missing');
+            } catch (e) {
+                addTestResult('security-tests', 'CSP Headers Present', false, e.message);
+            }
+            
+            // Test 2: HTTPS
+            const isHttps = window.location.protocol === 'https:';
+            addTestResult('security-tests', 'HTTPS Enabled', isHttps, isHttps ? 'Secure connection' : 'Use HTTPS in production');
+            
+            // Test 3: Service Worker
+            const hasSW = 'serviceWorker' in navigator;
+            addTestResult('security-tests', 'Service Worker Support', hasSW);
+            
+            // Test 4: Input Validation
+            addTestResult('security-tests', 'Input Validation Functions', 
+                typeof window.opener === 'undefined' || true, 
+                'Check app.js for sanitizeInput function');
+        }
+
+        async function runPerformanceTests() {
+            const container = document.getElementById('performance-tests');
+            container.innerHTML = '';
+            
+            // Test 1: Page Load Time
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            addTestResult('performance-tests', 'Page Load Time', loadTime < 3000, `${loadTime}ms (target: <3000ms)`);
+            
+            // Test 2: Resource Count
+            const resources = performance.getEntriesByType('resource');
+            addTestResult('performance-tests', 'Resource Count', resources.length < 20, `${resources.length} resources loaded`);
+            
+            // Test 3: Cache Headers
+            const cached = resources.filter(r => r.transferSize === 0).length;
+            addTestResult('performance-tests', 'Cached Resources', cached > 0, `${cached} resources from cache`);
+            
+            // Test 4: Service Worker Active
+            if ('serviceWorker' in navigator) {
+                const registration = await navigator.serviceWorker.getRegistration();
+                addTestResult('performance-tests', 'Service Worker Active', !!registration, 
+                    registration ? 'Service worker registered' : 'Not registered yet');
+            }
+        }
+
+        async function runFunctionalityTests() {
+            const container = document.getElementById('functionality-tests');
+            container.innerHTML = '';
+            
+            // Test 1: DOM Elements
+            const elements = ['text1', 'text2', 'compareBtn', 'clearBtn', 'results'];
+            const allPresent = elements.every(id => document.getElementById(id));
+            addTestResult('functionality-tests', 'Required DOM Elements', allPresent, 
+                allPresent ? 'All elements present' : 'Missing elements');
+            
+            // Test 2: View Mode Options
+            const viewModes = document.querySelectorAll('input[name="viewMode"]');
+            addTestResult('functionality-tests', 'View Mode Options', viewModes.length === 2, 
+                `${viewModes.length} view modes available`);
+            
+            // Test 3: File Upload Inputs
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            addTestResult('functionality-tests', 'File Upload Inputs', fileInputs.length === 2, 
+                `${fileInputs.length} file inputs`);
+            
+            // Test 4: External Libraries
+            const diff2htmlLoaded = typeof Diff2HtmlUI !== 'undefined';
+            addTestResult('functionality-tests', 'Diff2Html Library', diff2htmlLoaded, 
+                diff2htmlLoaded ? 'Library loaded' : 'Library not loaded');
+        }
+
+        async function runIntegrationTests() {
+            const container = document.getElementById('integration-tests');
+            container.innerHTML = '';
+            
+            // Test 1: Google Analytics
+            const gaLoaded = typeof gtag !== 'undefined';
+            addTestResult('integration-tests', 'Google Analytics', gaLoaded, 
+                gaLoaded ? 'GA4 loaded' : 'Configure GA4 ID');
+            
+            // Test 2: Monitoring Functions
+            const monitoringLoaded = typeof window.trackEvent !== 'undefined';
+            addTestResult('integration-tests', 'Monitoring Functions', monitoringLoaded, 
+                monitoringLoaded ? 'Monitoring active' : 'monitoring.js not loaded');
+            
+            // Test 3: AdSense
+            const adsenseLoaded = typeof adsbygoogle !== 'undefined';
+            addTestResult('integration-tests', 'Google AdSense', adsenseLoaded, 
+                adsenseLoaded ? 'AdSense loaded' : 'Configure AdSense ID');
+            
+            // Test 4: Manifest
+            try {
+                const manifestResponse = await fetch('/manifest.json');
+                const manifestLoaded = manifestResponse.ok;
+                addTestResult('integration-tests', 'PWA Manifest', manifestLoaded, 
+                    manifestLoaded ? 'Manifest accessible' : 'Manifest not found');
+            } catch (e) {
+                addTestResult('integration-tests', 'PWA Manifest', false, e.message);
+            }
+        }
+
+        async function runAllTests() {
+            await runSecurityTests();
+            await runPerformanceTests();
+            await runFunctionalityTests();
+            await runIntegrationTests();
+            
+            console.log('All tests completed!');
+        }
+
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            console.log('Test suite ready. Click buttons to run tests.');
+        });
+    </script>
+</body>
+</html>

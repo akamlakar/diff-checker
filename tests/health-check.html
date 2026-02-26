@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Check</title>
+</head>
+<body>
+    <script>
+        // Simple health check endpoint
+        const health = {
+            status: 'healthy',
+            timestamp: new Date().toISOString(),
+            version: '2.0.0',
+            services: {
+                frontend: 'operational',
+                serviceWorker: 'serviceWorker' in navigator ? 'supported' : 'not_supported',
+                localStorage: typeof Storage !== 'undefined' ? 'available' : 'unavailable'
+            }
+        };
+        
+        document.body.innerHTML = `<pre>${JSON.stringify(health, null, 2)}</pre>`;
+        document.body.style.fontFamily = 'monospace';
+        document.body.style.padding = '20px';
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+node_modules/
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.env.local
+.env.production
+dist/
+src/*.min.js
+src/*.min.css
+src/*.map
+.netlify/
+.cache/
+coverage/

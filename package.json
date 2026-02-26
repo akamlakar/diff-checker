@@ -1,0 +1,55 @@
+{
+  "name": "diff-checker",
+  "version": "2.0.0",
+  "description": "Professional diff checker with security and performance optimizations",
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "python3 -m http.server 8000",
+    "build": "npm run minify",
+    "minify": "npm run minify:js && npm run minify:css",
+    "minify:js": "terser src/app.js -o src/app.min.js --compress --mangle --source-map && terser src/monitoring.js -o src/monitoring.min.js --compress --mangle --source-map",
+    "minify:css": "cleancss -o src/styles.min.css src/styles.css",
+    "test": "node tests/performance-test.js",
+    "test:lighthouse": "lighthouse http://localhost:8000 --view --preset=desktop",
+    "test:security": "echo 'Visit http://localhost:8000/tests/test.html to run security tests'",
+    "audit": "npm audit --audit-level=moderate",
+    "audit:fix": "npm audit fix",
+    "deploy": "netlify deploy --prod",
+    "deploy:preview": "netlify deploy",
+    "setup": "./scripts/setup.sh",
+    "validate": "npm run audit && npm run build && npm run test",
+    "clean": "rm -f src/*.min.js src/*.min.css src/*.map",
+    "precommit": "npm run validate"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.31.0",
+    "lighthouse": "^11.7.1",
+    "@netlify/plugin-lighthouse": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "keywords": [
+    "diff",
+    "checker",
+    "comparison",
+    "text-diff",
+    "code-diff",
+    "syntax-highlighting",
+    "production-ready",
+    "pwa"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/diff-checker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/diff-checker/issues"
+  },
+  "homepage": "https://github.com/yourusername/diff-checker#readme",
+  "author": "",
+  "license": "MIT"
+}
